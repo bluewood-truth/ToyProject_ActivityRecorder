@@ -20,20 +20,10 @@ public class DataController : MonoBehaviour
 
     private void Awake()
     {
-        BetterStreamingAssets.Initialize();
         Singleton();
-
-        Test();
     }
 
-    void Test()
-    {
-        int[] asd = { 1, 2, 3, 4, 5 };
-        Save(asd, "ASD");
 
-        var qwe = Load<int[]>("ASD");
-        Debug.Log(qwe[0]);
-    }
 
     // 상수
     const string SAVE = "SAVE";
