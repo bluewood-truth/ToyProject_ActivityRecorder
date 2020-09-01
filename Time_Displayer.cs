@@ -25,6 +25,9 @@ public class Time_Displayer : MonoBehaviour
     IEnumerator c_Time_Display()
     {
         DateTime time = DateTime.Now;
+        Update_Date_Text(time);
+        Update_Time_Text(time);
+
         while (true)
         {
             int day = time.Day;
