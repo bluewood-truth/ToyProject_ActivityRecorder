@@ -46,4 +46,28 @@ public static class _Functions
 
         return true;
     }
+
+    public static void Colored_Object_Caching(GameObject[] _colored_objects)
+    {
+        for (int i = 0; i < _colored_objects.Length; i++)
+        {
+            var c_object = _colored_objects[i];
+
+            var img = c_object.GetComponent<Image>();
+            if (img)
+            {
+                DataController.instance.colored_image.Add(img);
+                img.color = DataController.instance.color;
+                continue;
+            }
+
+            var txt = c_object.GetComponent<Text>();
+            if (txt)
+            {
+                DataController.instance.colored_text.Add(txt);
+                txt.color = DataController.instance.color;
+                continue;
+            }
+        }
+    }
 }

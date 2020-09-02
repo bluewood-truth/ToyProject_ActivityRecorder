@@ -5,24 +5,28 @@ using UnityEngine.UI;
 
 public class Toggle_Text_Color : MonoBehaviour
 {
-    Text text;
-    Color color_default;
-    Color color_toggled;
+    Text target_text;
 
-    private void Awake()
+    private void Start()
     {
-        var toggle = GetComponent<Toggle>();
-        text = GetComponentInChildren<Text>();
-
-        color_default = text.color;
-        color_toggled = GetComponent<Image>().color;
-
-        toggle.onValueChanged.AddListener(Toggle_Color);
-        toggle.onValueChanged.Invoke(toggle.isOn);
+        Init();
     }   
 
-    void Toggle_Color(bool is_on)
+    void Init()
     {
-        text.color = is_on ? color_toggled : color_default;
+        var toggle = GetComponent<Toggle>();
+        var prefab_text = GetComponentInChildren<Text>().gameObject;
+
+        var target = Instantiate(prefab_text);
+        target.transform.SetParent(transform);
+        target.GetComponent<RectTransform>().localPosition = Vector2.zero;
+        target_text = target.GetComponent<Text>();
+
+        toggle.onValueChanged.AddListener((bool is_on) =>
+        {
+            target_text.color = DataController.instance.color_white;
+            target_text.gameObject.SetActive(is_on);
+        });
+        toggle.onValueChanged.Invoke(toggle.isOn);
     }
 }

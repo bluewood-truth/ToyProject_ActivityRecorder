@@ -28,6 +28,9 @@ public class Add_Activity : MonoBehaviour
     const string IS_CAT_PAGE = "IS_CAT_PAGE";
     const string f_activity = "<i><size=36>[{0}]</size>\n{1}</i> <size=36>({2})</size>";
 
+    [Space(10)]
+    [SerializeField] GameObject[] colored_objects;
+
     private void Start()
     {
         Init();
@@ -58,6 +61,8 @@ public class Add_Activity : MonoBehaviour
         else
             toggle_activity.isOn = true;
         toggle_category.onValueChanged.AddListener((bool isOn) => { PlayerPrefs.SetInt(IS_CAT_PAGE, isOn ? 1 : 0); });
+
+        _Functions.Colored_Object_Caching(colored_objects);
     }
 
 

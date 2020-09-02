@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -21,6 +22,7 @@ public class DataController : MonoBehaviour
     private void Awake()
     {
         Singleton();
+        Colored_Object_Caching();
         Load_Data();
     }
 
@@ -35,20 +37,43 @@ public class DataController : MonoBehaviour
             activities = new List<Activity>();
     }
 
+    void Colored_Object_Caching()
+    {
+        var colored_objects = GameObject.FindGameObjectsWithTag(COLORED);
+        _Functions.Colored_Object_Caching(colored_objects);
+    }
+
+    void Change_Color(Color _color)
+    {
+        for(int i = 0; i < colored_text.Count; i++)
+        {
+            colored_text[i].color = _color;
+        }
+        for (int i = 0; i < colored_image.Count; i++)
+        {
+            colored_image[i].color = _color;
+        }
+    }
+
+
+    // 데이터들
+    [HideInInspector] public List<string> categories;
+    [HideInInspector] public List<Activity> activities;
+
+    public Color color;
+    public Color color_white;
+    public List<Text> colored_text = new List<Text>();
+    public List<Image> colored_image = new List<Image>();
+
 
 
     // 상수
+    public const string COLORED = "Colored";
     const string SAVE = "SAVE";
     const string CATEGORY = "CATEGORY";
     const string ACTIVITY = "ACTIVITY";
 
     const string f_json = "{0}.json";
-
-
-    // 데이터들
-    public List<string> categories;
-    public List<Activity> activities;
-
 
 
     
