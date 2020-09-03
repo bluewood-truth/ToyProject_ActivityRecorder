@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 // 앱에 필요한 데이터를 정의하는 파일
 
@@ -21,4 +23,11 @@ public struct Activity
 public enum Count_Unit
 {
     없음=0, 회=1, 초=2, 분=3, 시간=4, m=5, km=6
+}
+
+public class Record
+{
+    public Activity activity;
+    public int count;
+    public DateTime datetime;
 }

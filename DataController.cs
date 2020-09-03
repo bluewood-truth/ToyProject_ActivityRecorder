@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using Newtonsoft.Json;
+using System;
 
 public class DataController : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class DataController : MonoBehaviour
         activities = Load<List<Activity>>(ACTIVITY);
         if (activities == null)
             activities = new List<Activity>();
+
+        records = Load<Dictionary<DateTime, List<Record>>>(RECORD);
+        if (records == null)
+            records = new Dictionary<DateTime, List<Record>>();
     }
 
     void Colored_Object_Caching()
@@ -59,6 +64,14 @@ public class DataController : MonoBehaviour
     // 데이터들
     [HideInInspector] public List<string> categories;
     [HideInInspector] public List<Activity> activities;
+    [HideInInspector] public Dictionary<DateTime, List<Record>> records;
+    public List<Record> Get_Today_Records()
+    {
+        var today = DateTime.Today;
+        if (!records.ContainsKey(today))
+            records.Add(today, new List<Record>());
+        return records[today];
+    }
 
     public Color color;
     public Color color_white;
@@ -72,6 +85,7 @@ public class DataController : MonoBehaviour
     const string SAVE = "SAVE";
     const string CATEGORY = "CATEGORY";
     const string ACTIVITY = "ACTIVITY";
+    const string RECORD = "RECORD";
 
     const string f_json = "{0}.json";
 
@@ -121,6 +135,25 @@ public class DataController : MonoBehaviour
         }
     }
 
+    public void Add_Record(Record _input)
+    {
+        records[DateTime.Today].Add(_input);
+        Save(records, RECORD);
+    }
+
+    public void Remove_Record(int _index)
+    {
+
+        try
+        {
+            records[DateTime.Today].RemoveAt(_index);
+            Save(records, RECORD);
+        }
+        catch
+        {
+            Debug.Log("Remove_Record: 존재하지 않는 인덱스 " + _index);
+        }
+    }
 
 
 

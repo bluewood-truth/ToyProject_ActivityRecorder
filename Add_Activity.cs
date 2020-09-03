@@ -24,12 +24,15 @@ public class Add_Activity : MonoBehaviour
     GameObject prefab_category_child;
     GameObject prefab_activity_child;
 
+    [Space(10)]
+
+    [SerializeField] GameObject[] colored_objects;
+
+
     bool is_category_page = true; // 분류 추가 화면인지
     const string IS_CAT_PAGE = "IS_CAT_PAGE";
     const string f_activity = "<i><size=36>[{0}]</size>\n{1}</i> <size=36>({2})</size>";
 
-    [Space(10)]
-    [SerializeField] GameObject[] colored_objects;
 
     private void Start()
     {

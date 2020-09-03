@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Dropdown_Category : MonoBehaviour
 {
     const string NONE = "<color=#939393><i>분류 선택</i></color>";
-    public Dropdown dropdown;
+    [HideInInspector] public Dropdown dropdown;
 
     public void Update_Options()
     {
