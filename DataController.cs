@@ -20,6 +20,14 @@ public class DataController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Alert.Show("테스트입니다!");
+        }
+    }
+
     private void Awake()
     {
         Singleton();
