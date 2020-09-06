@@ -70,4 +70,18 @@ public static class _Functions
             }
         }
     }
+
+
+    // 타이머 창을 닫아도 타이머가 계속 돌아가게 하기 위해
+    public static void SetEnable(this GameObject _object, bool is_on)
+    {
+        CanvasGroup cg = _object.GetComponent<CanvasGroup>();
+        if(cg == null)
+        {
+            Debug.Log("캔버스그룹이 없음:" + _object.name);
+        }
+
+        cg.alpha = is_on ? 1 : 0;
+        cg.blocksRaycasts = is_on;
+    }
 }

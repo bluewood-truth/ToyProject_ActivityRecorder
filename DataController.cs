@@ -20,14 +20,6 @@ public class DataController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Alert.Show("테스트입니다!");
-        }
-    }
-
     private void Awake()
     {
         Singleton();
@@ -48,6 +40,10 @@ public class DataController : MonoBehaviour
         records = Load<Dictionary<DateTime, List<Record>>>(RECORD);
         if (records == null)
             records = new Dictionary<DateTime, List<Record>>();
+
+        timer_settings = Load<List<Timer_Setting>>(TIMER);
+        if (timer_settings == null)
+            timer_settings = new List<Timer_Setting>();
     }
 
     void Colored_Object_Caching()
@@ -80,6 +76,7 @@ public class DataController : MonoBehaviour
             records.Add(today, new List<Record>());
         return records[today];
     }
+    [HideInInspector] public List<Timer_Setting> timer_settings;
 
     public Color color;
     public Color color_white;
@@ -94,6 +91,7 @@ public class DataController : MonoBehaviour
     const string CATEGORY = "CATEGORY";
     const string ACTIVITY = "ACTIVITY";
     const string RECORD = "RECORD";
+    const string TIMER = "TIMER";
 
     const string f_json = "{0}.json";
 
@@ -163,6 +161,24 @@ public class DataController : MonoBehaviour
         }
     }
 
+    public void Add_Timer(Timer_Setting _input)
+    {
+        timer_settings.Add(_input);
+        Save(timer_settings, TIMER);
+    }
+
+    public void Remove_Timer(int _index)
+    {
+        try
+        {
+            timer_settings.RemoveAt(_index);
+            Save(timer_settings, TIMER);
+        }
+        catch
+        {
+            Debug.Log("Remove_Timer: 존재하지 않는 인덱스 " + _index);
+        }
+    }
 
 
 

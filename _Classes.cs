@@ -31,3 +31,24 @@ public class Record
     public int count;
     public DateTime datetime;
 }
+
+
+public class Timer_Setting
+{
+    public string name;
+    public List<int> time_sets;
+    public int repeat;
+
+    public int[] Get_All_Time_Sets()
+    {
+        var result = new List<int>();
+        int n = 0;
+        while(n < repeat)
+        {
+            result.AddRange(time_sets);
+            n += 1;
+        }
+
+        return result.ToArray();
+    }
+}

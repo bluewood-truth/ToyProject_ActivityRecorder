@@ -15,6 +15,7 @@ public class AlertHandler : MonoBehaviour
     private void Awake()
     {
         Alert.handler = this;
+        toast.gameObject.SetActive(false);
     }
 
     public void Alert_Display(string _message, Wait _time)
@@ -46,8 +47,8 @@ public class AlertHandler : MonoBehaviour
 
         while (alpha > 0)
         {
-            toast.alpha = alpha;
             alpha -= Time.deltaTime / fade_time;
+            toast.alpha = alpha;
             yield return null;
         }
 
