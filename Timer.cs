@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] Dropdown select_timer;
+    public Dropdown select_timer;
     [SerializeField] Text text_time;
     [SerializeField] Text text_time_prev;
     [SerializeField] Text text_time_next;
@@ -15,6 +15,10 @@ public class Timer : MonoBehaviour
     [Space(10)]
 
     [SerializeField] GameObject[] colored_objects;
+
+    [Space(10)]
+
+    [SerializeField] Timer_Manage timer_manage;
 
     const string f_time = "{0:00}:{1:00}<size=128>:{2:00}</size>";
     const string STOPWATCH = "<i>스톱워치</i>";
@@ -41,7 +45,7 @@ public class Timer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (select_timer.Close_Check())
+            if (timer_manage.gameObject.Close_Check() && select_timer.Close_Check())
                 gameObject.SetEnable(false);
         }
     }
@@ -51,6 +55,12 @@ public class Timer : MonoBehaviour
         select_timer.onValueChanged.AddListener(Select_Timer);
         Update_Select_TImer_Options();
         Select_Timer(select_timer.value);
+
+        timer_manage.action_update_timer += () =>
+        {
+            Update_Select_TImer_Options();
+            select_timer.value = 0;
+        };
 
         _Functions.Colored_Object_Caching(colored_objects);
     }
@@ -78,7 +88,7 @@ public class Timer : MonoBehaviour
         else
         {
             var timer_now = DataController.instance.timer_settings[_value - 1];
-            time_sets = timer_now.Get_All_Time_Sets();
+            time_sets = timer_now.Get_All_Timesets();
             Set_Timer_Text(true);
             time_tms = time_sets[0];
         }

@@ -47,6 +47,17 @@ public static class _Functions
         return true;
     }
 
+    public static bool Close_Check(this GameObject _input)
+    {
+        if (_input.gameObject.activeSelf)
+        {
+            _input.SetActive(false);
+            return false;
+        }
+
+        return true;
+    }
+
     public static void Colored_Object_Caching(GameObject[] _colored_objects)
     {
         for (int i = 0; i < _colored_objects.Length; i++)

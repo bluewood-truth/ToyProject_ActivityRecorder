@@ -36,16 +36,16 @@ public class Record
 public class Timer_Setting
 {
     public string name;
-    public List<int> time_sets;
+    public List<int> timesets;
     public int repeat;
 
-    public int[] Get_All_Time_Sets()
+    public int[] Get_All_Timesets()
     {
         var result = new List<int>();
         int n = 0;
         while(n < repeat)
         {
-            result.AddRange(time_sets);
+            result.AddRange(timesets);
             n += 1;
         }
 
