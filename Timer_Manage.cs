@@ -89,13 +89,19 @@ public class Timer_Manage : MonoBehaviour
     public void Btn_Add_Timeset()
     {
         if (timesets.Count >= timeset_limit)
+        {
+            Alert.Show(string.Format("추가할 수 있는 시간은 {0}개까지입니다.", timeset_limit));
             return;
+        }
 
         int tmp_min = int.Parse(text_min.text);
         int tmp_sec = int.Parse(text_sec.text);
 
         if (tmp_min == 0 && tmp_sec == 0)
+        {
+            Alert.Show("추가할 시간을 설정해주세요.");
             return;
+        }
 
         timesets.Add(tmp_min * 60 + tmp_sec);
 
@@ -130,10 +136,7 @@ public class Timer_Manage : MonoBehaviour
     {
         int tmp_min = _input / 60;
         int tmp_sec = _input - tmp_min * 60;
-
-        Debug.Log(tmp_min);
-        Debug.Log(tmp_sec);
-
+        
         string result = tmp_min < 1 ? 
             string.Format(f_timeset_sec_only, tmp_sec) : 
             string.Format(f_timeset, tmp_min, tmp_sec);
@@ -179,16 +182,21 @@ public class Timer_Manage : MonoBehaviour
 
     bool Timer_Input_Valid_Check()
     {
-        Debug.Log(1);
         if (input_timer_name.text == string.Empty)
+        {
+            Alert.Show("타이머명을 입력해주세요.");
             return false;
-        Debug.Log(2);
+        }
         if (timesets.Count < 1)
+        {
+            Alert.Show("타이머의 시간을 추가해주세요.");
             return false;
-        Debug.Log(3);
+        }
         if (input_timeset_repeat.text == string.Empty)
+        {
+            Alert.Show("반복횟수를 입력해주세요.");
             return false;
-        Debug.Log(4);
+        }
         return true;
     }
 

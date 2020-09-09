@@ -86,10 +86,12 @@ public class Add_Activity : MonoBehaviour
         string input = input_category.text;
         if (input == string.Empty)
         {
+            Alert.Show("분류명을 입력해주세요.");
             return false;
         }
         if (DataController.instance.categories.Contains(input))
         {
+            Alert.Show("이미 존재하는 분류입니다.");
             return false;
         }
 
@@ -138,15 +140,18 @@ public class Add_Activity : MonoBehaviour
     {
         if(select_category.Get_Value() == string.Empty || select_unit.value == 0)
         {
+            Alert.Show("분류와 단위를 선택해주세요.");
             return false;
         }
         string input = input_activity.text;
         if (input == string.Empty)
         {
+            Alert.Show("활동명을 입력해주세요.");
             return false;
         }
         if (DataController.instance.activities.Contains(new Activity(input, select_category.Get_Value(), ((Count_Unit)select_unit.value).ToString() )))
         {
+            Alert.Show("이미 존재하는 활동입니다.");
             return false;
         }
 

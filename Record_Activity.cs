@@ -122,10 +122,16 @@ public class Record_Activity : MonoBehaviour
     bool Record_Input_Valid_Check()
     {
         if (select_category.dropdown.value == 0 || select_activity.dropdown.value == 0)
+        {
+            Alert.Show("분류와 활동 선택해주세요.");
             return false;
+        }
         if (input_count.text == string.Empty)
+        {
+            Alert.Show("활동량을 입력해주세요.");
             return false;
-
+        }
+        
         return true;
     }
 }
