@@ -27,6 +27,7 @@ public class DataController : MonoBehaviour
         Load_Data();
     }
 
+
     void Load_Data()
     {
         categories = Load<List<string>>(CATEGORY);
@@ -78,6 +79,73 @@ public class DataController : MonoBehaviour
     }
     [HideInInspector] public List<Timer_Setting> timer_settings;
 
+    public string[] Get_Big_Categories()
+    {
+        List<string> big_categories = new List<string>();
+        for(int i = 0; i < categories.Count; i++)
+        {
+            string category = categories[i];
+            if (category.Contains(DASH))
+            {
+                var big_cat = category.Split('-')[0];
+                if (!big_categories.Contains(big_cat))
+                    big_categories.Add(big_cat);
+            }
+        }
+
+        return big_categories.ToArray();
+    }
+    
+    public Record[] Get_Records_by_Cond(DateTime _date, string _big_cat = "", string _category = "", int _activity_index = -1)
+    {
+        if (!records.ContainsKey(_date))
+            return new Record[0];
+
+        var result = new List<Record>();
+        var day_record = records[_date];
+
+        // 활동으로 필터링
+        if (_activity_index != -1)
+        {
+            for (int i = 0; i < day_record.Count; i++)
+            {
+                if(day_record[i].activity.Equals(activities[_activity_index]))
+                {
+                    result.Add(day_record[i]);
+                }
+            }
+            return result.ToArray();
+        }
+        // 분류로 필터링
+        else if (_category != string.Empty)
+        {
+            for (int i = 0; i < day_record.Count; i++)
+            {
+                if (day_record[i].activity.category == _category)
+                {
+                    result.Add(day_record[i]);
+                }
+            }
+            return result.ToArray();
+        }
+        // 대분류로 필터링
+        else if (_big_cat != string.Empty)
+        {
+            for (int i = 0; i < day_record.Count; i++)
+            {
+                if (day_record[i].activity.category.StartsWith(string.Format(f_dash, _big_cat)))
+                {
+                    result.Add(day_record[i]);
+                }
+            }
+            return result.ToArray();
+        }
+        else
+        {
+            return records[_date].ToArray();
+        }
+    }
+
     public Color color;
     public Color color_white;
     public List<Text> colored_text = new List<Text>();
@@ -92,11 +160,12 @@ public class DataController : MonoBehaviour
     const string ACTIVITY = "ACTIVITY";
     const string RECORD = "RECORD";
     const string TIMER = "TIMER";
+    const string DASH = "-";
 
     const string f_json = "{0}.json";
+    const string f_dash = "{0}-";
 
 
-    
     public void Add_Category(string _input)
     {
         if (!categories.Contains(_input))

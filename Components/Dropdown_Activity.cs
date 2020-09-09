@@ -70,4 +70,9 @@ public class Dropdown_Activity : MonoBehaviour
 
         return result;
     }
+
+    public int Get_Activity_Index()
+    {
+        return activity_index[dropdown.value];
+    }
 }

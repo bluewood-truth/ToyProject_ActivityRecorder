@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 // 자주 사용되는 함수들을 static으로 모아둠
 public static class _Functions
@@ -29,7 +30,7 @@ public static class _Functions
         }
 
         // 비활성화된 child가 없다면 새로운 인스턴스를 생성
-        var result = Object.Instantiate(_prefab);
+        var result = UnityEngine.Object.Instantiate(_prefab);
         result.transform.SetParent(_container);
         if (_as_first_child)
             result.transform.SetAsFirstSibling();
@@ -94,5 +95,18 @@ public static class _Functions
 
         cg.alpha = is_on ? 1 : 0;
         cg.blocksRaycasts = is_on;
+    }
+
+
+    public static DateTime Get_Firstday_of_Month(DateTime _input)
+    {
+        var day = new DateTime(_input.Year, _input.Month, _input.Day);
+        return day.AddDays(1 - day.Day);
+    }
+
+    static string[] day_of_week = new string[7] { "일", "월", "화", "수", "목", "금", "토" };
+    public static string Get_Day_of_Week_Kor(int _day_of_week)
+    {
+        return day_of_week[_day_of_week];
     }
 }
