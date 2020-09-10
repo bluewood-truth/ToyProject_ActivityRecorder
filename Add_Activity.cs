@@ -31,7 +31,7 @@ public class Add_Activity : MonoBehaviour
 
     bool is_category_page = true; // 분류 추가 화면인지
     const string IS_CAT_PAGE = "IS_CAT_PAGE";
-    const string f_activity = "<i><size=36>[{0}]</size>\n{1}</i> <size=36>({2})</size>";
+    const string f_activity = "<i><size=36><color=#{3}>[{0}]</color></size>\n{1}</i> <size=36>({2})</size>";
 
 
     private void Start()
@@ -167,7 +167,11 @@ public class Add_Activity : MonoBehaviour
         {
             var child = activity_container.Get_Child_From_Pool(prefab_activity_child);
             var activity = activities[i];
-            child.GetComponentInChildren<Text>().text = string.Format(f_activity, activity.category, activity.name, activity.count_unit);
+            var cat_color = DataController.instance.Get_Category_Color(activity.category);
+            child.GetComponentInChildren<Text>().text = string.Format(f_activity, activity.category, activity.name, activity.count_unit, ColorUtility.ToHtmlStringRGB(cat_color));
+
+            Debug.Log(ColorUtility.ToHtmlStringRGB(cat_color));
+            Debug.Log(cat_color.ToString());
 
             var child_remove_btn = child.GetComponentInChildren<Button>();
             child_remove_btn.onClick.RemoveAllListeners();

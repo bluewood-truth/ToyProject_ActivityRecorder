@@ -21,7 +21,7 @@ public class Record_Activity : MonoBehaviour
 
 
     const string f_time = "HH:mm";
-    const string f_record = "<i><size=36>[{0}]</size>\n{1}</i> {2}{3}";
+    const string f_record = "<i><size=36><color=#{4}>  [{0}]</color></size>\n{1}</i> {2}{3}";
 
 
     private void Start()
@@ -81,10 +81,12 @@ public class Record_Activity : MonoBehaviour
 
             var child = _Functions.Get_Child_From_Pool(container_record, prefab_record, true);
             var child_texts = child.GetComponentsInChildren<Text>();
+            var cat_color = DataController.instance.Get_Category_Color(record.activity.category);
 
             child_texts[0].text = string.Format(f_record,
                 record.activity.category, record.activity.name,
-                record.count, record.activity.count_unit);
+                record.count, record.activity.count_unit,
+                ColorUtility.ToHtmlStringRGB(cat_color));
 
             child_texts[1].text = record.datetime.ToString(f_time);
 

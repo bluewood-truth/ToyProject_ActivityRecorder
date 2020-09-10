@@ -37,6 +37,12 @@ public class Dropdown_Activity : MonoBehaviour
 
     public void Update_Options(string _category)
     {
+        if(_category == string.Empty)
+        {
+            Update_Options();
+            return;
+        }
+
         if (dropdown == null)
             Init();
 
@@ -73,6 +79,12 @@ public class Dropdown_Activity : MonoBehaviour
 
     public int Get_Activity_Index()
     {
-        return activity_index[dropdown.value];
+        if (dropdown == null)
+            Init();
+
+        if (activity_index != null)
+            return activity_index[dropdown.value];
+        else
+            return -1;
     }
 }

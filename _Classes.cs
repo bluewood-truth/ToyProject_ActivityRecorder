@@ -52,3 +52,18 @@ public class Timer_Setting
         return result.ToArray();
     }
 }
+
+
+public class Filtering_Data
+{
+    public string big_cat = "";
+    public string category = "";
+    public int activity_index = -1;
+
+    public Filtering_Data(string _big_cat = "", string _category = "", int _activity_index = -1)
+    {
+        big_cat = _big_cat;
+        category = _category;
+        activity_index = _activity_index;
+    }
+}

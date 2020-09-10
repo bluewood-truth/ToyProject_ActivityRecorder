@@ -96,7 +96,20 @@ public class DataController : MonoBehaviour
         return big_categories.ToArray();
     }
     
-    public Record[] Get_Records_by_Cond(DateTime _date, string _big_cat = "", string _category = "", int _activity_index = -1)
+    public string[] Get_Categories_By_Big_Cat(string _big_cat)
+    {
+        List<string> result = new List<string>();
+        string tmp = string.Format(f_dash, _big_cat);
+        for (int i = 0; i < categories.Count; i++)
+        {
+            string category = categories[i];
+            if (category.StartsWith(tmp) || category == _big_cat)
+                result.Add(category);
+        }
+        return result.ToArray();
+    }
+
+    public Record[] Get_Records_by_Filter(DateTime _date, Filtering_Data _data)
     {
         if (!records.ContainsKey(_date))
             return new Record[0];
@@ -105,11 +118,11 @@ public class DataController : MonoBehaviour
         var day_record = records[_date];
 
         // 활동으로 필터링
-        if (_activity_index != -1)
+        if (_data.activity_index != -1)
         {
             for (int i = 0; i < day_record.Count; i++)
             {
-                if(day_record[i].activity.Equals(activities[_activity_index]))
+                if(day_record[i].activity.Equals(activities[_data.activity_index]))
                 {
                     result.Add(day_record[i]);
                 }
@@ -117,11 +130,11 @@ public class DataController : MonoBehaviour
             return result.ToArray();
         }
         // 분류로 필터링
-        else if (_category != string.Empty)
+        else if (_data.category != string.Empty)
         {
             for (int i = 0; i < day_record.Count; i++)
             {
-                if (day_record[i].activity.category == _category)
+                if (day_record[i].activity.category == _data.category)
                 {
                     result.Add(day_record[i]);
                 }
@@ -129,11 +142,12 @@ public class DataController : MonoBehaviour
             return result.ToArray();
         }
         // 대분류로 필터링
-        else if (_big_cat != string.Empty)
+        else if (_data.big_cat != string.Empty)
         {
+            string tmp = string.Format(f_dash, _data.big_cat);
             for (int i = 0; i < day_record.Count; i++)
             {
-                if (day_record[i].activity.category.StartsWith(string.Format(f_dash, _big_cat)))
+                if (day_record[i].activity.category.StartsWith(tmp) || day_record[i].activity.category == _data.big_cat)
                 {
                     result.Add(day_record[i]);
                 }
@@ -146,8 +160,17 @@ public class DataController : MonoBehaviour
         }
     }
 
+    [Space(10)]
+
     public Color color;
     public Color color_white;
+    [SerializeField] Color[] category_colors;
+    public Color Get_Category_Color(string _category)
+    {
+        int cat_index = categories.IndexOf(_category) % category_colors.Length;
+        return category_colors[cat_index];
+    }
+
     public List<Text> colored_text = new List<Text>();
     public List<Image> colored_image = new List<Image>();
 
@@ -163,7 +186,7 @@ public class DataController : MonoBehaviour
     const string DASH = "-";
 
     const string f_json = "{0}.json";
-    const string f_dash = "{0}-";
+    public const string f_dash = "{0}-";
 
 
     public void Add_Category(string _input)
