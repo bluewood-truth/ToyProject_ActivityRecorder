@@ -65,9 +65,15 @@ public class Statistics_Calendar : MonoBehaviour
 
     public void Update_Calendar(DateTime _month = default, Filtering_Data _data = null)
     {
-        data = _data;
-        if (data == null)
-            data = new Filtering_Data();
+        if (_data == null)
+        {
+            if (data == null)
+                data = new Filtering_Data();
+        }
+        else
+        {
+            data = _data;
+        }
 
         DateTime date;
         if(_month != default)
@@ -200,7 +206,6 @@ public class Statistics_Calendar : MonoBehaviour
         
         img.enabled = true;
         btn.onValueChanged.RemoveAllListeners();
-
         if (DataController.instance.records.ContainsKey(_date))
         {
             var record = DataController.instance.Get_Records_by_Filter(_date, data);
@@ -233,13 +238,11 @@ public class Statistics_Calendar : MonoBehaviour
                     if (is_on)
                         daily_record.Show_Daily_Record(_date, data);
                 });
-
                 return;
             }
         }
-
         img.color = color_none;
-        btn.interactable = false;
+        btn.enabled = false;
     }
 
 
