@@ -28,6 +28,8 @@ public class Timer : MonoBehaviour
 
     float time_tms; // 현재 타이머에서 실제로 변화하는 시간 (10밀리초 단위)
 
+    const int tictoc_start = 5; // 째깍소리 시작하는 시간 (초 단위)
+
     Coroutine cor_timer;
 
     public void Enable()
@@ -148,11 +150,17 @@ public class Timer : MonoBehaviour
 
     IEnumerator c_Timer()
     {
+        bool tictoc = false;
+
         while (true)
         {
             // 현재 타이머가 종료됐으면 다음 타이머로 교체
             if (time_tms < 0)
             {
+                tictoc = false;
+                Sound_Player.instance.Stop_Tictoc();
+                Sound_Player.instance.Play_Bell();
+
                 time_set_index += 1;
                 if (time_sets.Length <= time_set_index)
                 {
@@ -169,6 +177,13 @@ public class Timer : MonoBehaviour
 
             time_tms -= Time.deltaTime;
             Update_Timer_Text((int)(time_tms * 100));
+
+            if(time_tms < tictoc_start && !tictoc)
+            {
+                Debug.Log(time_tms);
+                Sound_Player.instance.Play_Tictoc();
+                tictoc = true;
+            }
 
             yield return null;
         }
@@ -198,11 +213,13 @@ public class Timer : MonoBehaviour
         Select_Timer(select_timer.value);
         select_timer.interactable = true;
         btn_manage.interactable = true;
+        Sound_Player.instance.Stop_Tictoc();
     }
 
     public void Btn_Pause()
     {
         StopCoroutine(cor_timer);
+        Sound_Player.instance.Pause_Tictoc();
     }
 
     public void Btn_Continue()
@@ -214,6 +231,7 @@ public class Timer : MonoBehaviour
         else
         {
             cor_timer = StartCoroutine(c_Timer());
+            Sound_Player.instance.Continue_Tictoc();
         }
     }
 

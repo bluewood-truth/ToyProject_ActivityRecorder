@@ -250,7 +250,10 @@ public class Statistics_Calendar : MonoBehaviour
     {
         int next_year = month.AddMonths(_is_add ? 1 : -1).Year;
         if (next_year > 2099 || next_year < 2000)
+        {
+            Alert.Show("유효하지 않은 날짜입니다.");
             return;
+        }
 
         month = month.AddMonths(_is_add ? 1 : -1);
         Update_Calendar(month);
