@@ -180,7 +180,6 @@ public class Timer : MonoBehaviour
 
             if(time_tms < tictoc_start && !tictoc)
             {
-                Debug.Log(time_tms);
                 Sound_Player.instance.Play_Tictoc();
                 tictoc = true;
             }

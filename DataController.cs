@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using Newtonsoft.Json;
 using System;
+using UnityEngine.Events;
 
 public class DataController : MonoBehaviour
 {
@@ -45,6 +46,10 @@ public class DataController : MonoBehaviour
         timer_settings = Load<List<Timer_Setting>>(TIMER);
         if (timer_settings == null)
             timer_settings = new List<Timer_Setting>();
+
+        todo_lists = Load<List<Todo>>(TODO);
+        if (todo_lists == null)
+            todo_lists = new List<Todo>();
     }
 
     void Colored_Object_Caching()
@@ -278,6 +283,14 @@ public class DataController : MonoBehaviour
     {
         todo_lists.Add(_input);
         Save(todo_lists, TODO);
+        Update_TodoList();
+    }
+
+    public void Update_Todo(int _index, Todo _todo)
+    {
+        todo_lists[_index] = _todo;
+        Save(todo_lists, TODO);
+        Update_TodoList();
     }
 
     public void Remove_Todo(int _index)
@@ -286,11 +299,28 @@ public class DataController : MonoBehaviour
         {
             todo_lists.RemoveAt(_index);
             Save(todo_lists, TODO);
+            Update_TodoList();
         }
         catch
         {
             Debug.Log("Remove_Todo: 존재하지 않는 인덱스 " + _index);
         }
+    }
+
+    public void Toggle_Todo(int _index, bool _toggle)
+    {
+        todo_lists[_index].display = _toggle;
+        Save(todo_lists, TODO);
+        Update_TodoList(false);
+    }
+
+    public UnityAction action_update_todolist;
+    void Update_TodoList(bool _update_list = true)
+    {
+        if(_update_list)
+            action_update_todolist?.Invoke();
+
+        // 메인화면 업데이트 추가;
     }
 
 

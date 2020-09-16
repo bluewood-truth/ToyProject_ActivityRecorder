@@ -39,6 +39,9 @@ public static class _Functions
 
     public static bool Close_Check(this Dropdown _input)
     {
+        if (_input == null)
+            return true;
+
         if(_input.gameObject.activeSelf && _input.transform.childCount > 3)
         {
             _input.Hide();

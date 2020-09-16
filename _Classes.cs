@@ -56,9 +56,20 @@ public class Timer_Setting
 
 public class Todo
 {
+    public bool display = true; // 메인화면에 표시할지
+
     public string name;
     public Activity[] activities;
     public bool[] activity_done;
+    public int done_count {
+        get {
+            int count = 0;
+            for (int i = 0; i < activity_done.Length; i++) {
+                count += activity_done[i] ? 1 : 0;
+            }
+            return count;
+        }
+    }
 
     public Term term;
 
@@ -77,10 +88,12 @@ public class Todo
     // 리셋 체크용 변수
     DateTime prev_day;
 
-
-    // 표시 여부 
+    // 메인에 표시 여부 
     public bool is_Display()
     {
+        if (!display)
+            return false;
+
         Next_Term_Check();
         DateTime today = DateTime.Today;
 
@@ -126,6 +139,13 @@ public class Todo
         TimeSpan differ = new TimeSpan(tick_differ);
 
         return differ.Days;
+    }
+
+    public int Get_Deadline_Day()
+    {
+        Next_Term_Check();
+        int d_day = term_day - (Get_Day_Differ() % term_day) - 1;
+        return d_day;
     }
 
     void Reset()

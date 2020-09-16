@@ -44,7 +44,7 @@ public class Add_Activity : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(select_category.dropdown.Close_Check() && select_unit.Close_Check())
-            gameObject.SetActive(false);
+                gameObject.SetActive(false);
         }
     }
 
@@ -169,10 +169,7 @@ public class Add_Activity : MonoBehaviour
             var activity = activities[i];
             var cat_color = DataController.instance.Get_Category_Color(activity.category);
             child.GetComponentInChildren<Text>().text = string.Format(f_activity, activity.category, activity.name, activity.count_unit, ColorUtility.ToHtmlStringRGB(cat_color));
-
-            Debug.Log(ColorUtility.ToHtmlStringRGB(cat_color));
-            Debug.Log(cat_color.ToString());
-
+            
             var child_remove_btn = child.GetComponentInChildren<Button>();
             child_remove_btn.onClick.RemoveAllListeners();
 

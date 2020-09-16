@@ -33,11 +33,6 @@ public class Todo_List_Write : MonoBehaviour
     const string f_activity = "<i><size=32><color=#{2}>[{0}]</color></size>\n{1}</i>";
     const string f_date = "yyyy.MM.dd";
 
-    private void Awake()
-    {
-        Init();
-    }
-
     void Init()
     {
         prefab_activity = container_activity.GetChild(0).gameObject;
@@ -51,10 +46,54 @@ public class Todo_List_Write : MonoBehaviour
         _Functions.Colored_Object_Caching(colored_objects);
     }
 
+    public bool Close_Check()
+    {
+        return select_category.dropdown.Close_Check() && 
+            select_activity.dropdown.Close_Check() && 
+            select_term.Close_Check() && gameObject.Close_Check();
+    }
+
     public void Show(int _update_index = -1)
     {
+        if (prefab_activity == null)
+            Init();
+
         update_index = _update_index;
+        Btn_Reset();
         gameObject.SetActive(true);
+    }
+
+    public void Btn_Reset()
+    {
+        for (int i = 0; i < toggle_term_weekday.Length; i++)
+            toggle_term_weekday[i].isOn = true;
+        input_term_day.text = DateTime.Today.ToString(f_date);
+        input_term_start.text = string.Empty;
+        tmp_activities = new List<Activity>();
+
+        if (update_index != -1)
+        {
+            Todo todo = DataController.instance.todo_lists[update_index];
+            input_todo_name.text = todo.name;
+            tmp_activities = new List<Activity>(todo.activities);
+
+            if(todo.term == Todo.Term.특정요일)
+            {
+                select_term.value = 1;
+                for(int i = 0; i < todo.term_weekday.Length; i++)
+                {
+                    toggle_term_weekday[i].isOn = todo.term_weekday[i];
+                }
+            }
+            else if (todo.term == Todo.Term.n일당1회)
+            {
+                select_term.value = 2;
+                input_term_start.text = todo.term_start_date.ToString(f_date);
+                input_term_day.text = todo.term_day.ToString();
+            }
+        }
+
+        Update_Activity_Container();
     }
 
     public void Btn_Add_Activity()
@@ -145,9 +184,16 @@ public class Todo_List_Write : MonoBehaviour
             new_todo.term_day = int.Parse(input_term_day.text);
         }
 
-        DataController.instance.Add_Todo(new_todo);
+        if(update_index == -1)
+        {
+            DataController.instance.Add_Todo(new_todo);
+        }
+        else
+        {
+            DataController.instance.Update_Todo(update_index, new_todo);
+        }
 
-        // ((todo리스트 업데이트하기))
+        gameObject.SetActive(false);
     }
 
     bool Todo_Input_Valid_Check()
