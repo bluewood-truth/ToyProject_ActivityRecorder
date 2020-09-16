@@ -47,6 +47,7 @@ public class Statistics_Calendar : MonoBehaviour
     {
         Set_Filled_Color_by_Alpha(DataController.instance.color);
         Set_Filled_Category_Color();
+        Update_Calendar(System.DateTime.Today, new Filtering_Data());
     }
 
     public bool Check_Daily_Window_Close()

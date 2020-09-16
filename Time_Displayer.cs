@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Globalization;
 
 public class Time_Displayer : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Time_Displayer : MonoBehaviour
 
     WaitForSeconds wait_one_second = new WaitForSeconds(1);
     Coroutine cor_time_display;
+    CultureInfo kor = CultureInfo.CreateSpecificCulture("ko-KR");
 
     private void Awake()
     {
@@ -47,7 +49,7 @@ public class Time_Displayer : MonoBehaviour
 
     void Update_Date_Text(DateTime _input)
     {
-        text_date.text = _input.ToString(f_date);
+        text_date.text = _input.ToString(f_date, kor);
     }
 
     void Update_Time_Text(DateTime _input)

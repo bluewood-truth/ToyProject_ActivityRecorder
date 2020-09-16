@@ -24,8 +24,8 @@ public class DataController : MonoBehaviour
     private void Awake()
     {
         Singleton();
-        Colored_Object_Caching();
         Load_Data();
+        Colored_Object_Caching();
     }
 
 
@@ -50,6 +50,11 @@ public class DataController : MonoBehaviour
         todo_lists = Load<List<Todo>>(TODO);
         if (todo_lists == null)
             todo_lists = new List<Todo>();
+
+        if (PlayerPrefs.HasKey(Config.COLOR))
+        {
+            color = color_palette[PlayerPrefs.GetInt(Config.COLOR)];
+        }
     }
 
     void Colored_Object_Caching()
@@ -58,16 +63,20 @@ public class DataController : MonoBehaviour
         _Functions.Colored_Object_Caching(colored_objects);
     }
 
-    void Change_Color(Color _color)
+    public UnityAction action_color_change;
+    public void Change_Color(Color _color)
     {
+        color = _color;
         for(int i = 0; i < colored_text.Count; i++)
         {
-            colored_text[i].color = _color;
+            colored_text[i].color = color;
         }
         for (int i = 0; i < colored_image.Count; i++)
         {
-            colored_image[i].color = _color;
+            colored_image[i].color = color;
         }
+
+        action_color_change?.Invoke();
     }
 
 
@@ -169,6 +178,7 @@ public class DataController : MonoBehaviour
     [Space(10)]
 
     public Color color;
+    public Color[] color_palette;
     public Color color_white;
     [SerializeField] Color[] category_colors;
     public Color Get_Category_Color(string _category)

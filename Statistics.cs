@@ -21,7 +21,6 @@ public class Statistics : MonoBehaviour
     private void Start()
     {
         Init();
-        calendar.Update_Calendar(System.DateTime.Today, new Filtering_Data());
     }
 
     private void Update()

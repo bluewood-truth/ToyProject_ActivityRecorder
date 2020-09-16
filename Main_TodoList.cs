@@ -29,6 +29,8 @@ public class Main_TodoList : MonoBehaviour
         DataController.instance.action_todo_done += Todo_Done;
 
         Update_Todo_List();
+
+        DataController.instance.action_color_change += Todo_Color_Change;
     }
 
     void Update_Todo_List()
@@ -91,5 +93,14 @@ public class Main_TodoList : MonoBehaviour
     }
 
 
-
+    void Todo_Color_Change()
+    {
+        for(int i = 0; i < container_todo.childCount; i++)
+        {
+            var text = container_todo.GetChild(i).GetComponentInChildren<Text>();
+            if (text.color == gray)
+                continue;
+            text.color = DataController.instance.color;
+        }
+    }
 }
