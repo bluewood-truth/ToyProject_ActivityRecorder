@@ -70,6 +70,8 @@ public class DataController : MonoBehaviour
     [HideInInspector] public List<string> categories;
     [HideInInspector] public List<Activity> activities;
     [HideInInspector] public Dictionary<DateTime, List<Record>> records;
+    [HideInInspector] public List<Timer_Setting> timer_settings;
+    [HideInInspector] public List<Todo> todo_lists;
     public List<Record> Get_Today_Records()
     {
         var today = DateTime.Today;
@@ -77,7 +79,6 @@ public class DataController : MonoBehaviour
             records.Add(today, new List<Record>());
         return records[today];
     }
-    [HideInInspector] public List<Timer_Setting> timer_settings;
 
     public string[] Get_Big_Categories()
     {
@@ -183,6 +184,7 @@ public class DataController : MonoBehaviour
     const string ACTIVITY = "ACTIVITY";
     const string RECORD = "RECORD";
     const string TIMER = "TIMER";
+    const string TODO = "TODO";
     const string DASH = "-";
 
     const string f_json = "{0}.json";
@@ -272,6 +274,24 @@ public class DataController : MonoBehaviour
         }
     }
 
+    public void Add_Todo(Todo _input)
+    {
+        todo_lists.Add(_input);
+        Save(todo_lists, TODO);
+    }
+
+    public void Remove_Todo(int _index)
+    {
+        try
+        {
+            todo_lists.RemoveAt(_index);
+            Save(todo_lists, TODO);
+        }
+        catch
+        {
+            Debug.Log("Remove_Todo: 존재하지 않는 인덱스 " + _index);
+        }
+    }
 
 
     void Save(object _data, string _filename)

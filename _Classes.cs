@@ -54,6 +54,88 @@ public class Timer_Setting
 }
 
 
+public class Todo
+{
+    public string name;
+    public Activity[] activities;
+    public bool[] activity_done;
+
+    public Term term;
+
+    // 특정 요일
+    public bool[] term_weekday = new bool[7];
+
+    // n일에 1회
+    public DateTime term_start_date;
+    public int term_day;
+
+    public enum Term
+    {
+        특정요일, n일당1회
+    }
+
+    // 리셋 체크용 변수
+    DateTime prev_day;
+
+
+    // 표시 여부 
+    public bool is_Display()
+    {
+        Next_Term_Check();
+        DateTime today = DateTime.Today;
+
+        // n일에 한 번
+        if (term == Term.n일당1회)
+            return true;
+        // 특정 요일
+        else
+        {
+            if (term_weekday[(int)today.DayOfWeek])
+                return true;
+        }
+
+        return false;
+    }
+
+    // 한 주기가 끝났는지 체크하고 끝났으면 리셋
+    void Next_Term_Check()
+    {
+        DateTime today = DateTime.Today;
+        
+        if(today != prev_day)
+        {
+            // 특정 요일
+            if (term == Term.특정요일)
+                Reset();
+            // n일에 한 번
+            else
+            {
+                int differ = Get_Day_Differ();
+                if (differ % term_day == 0)
+                    Reset();
+            }
+        }
+        prev_day = today;
+    }
+
+    int Get_Day_Differ()
+    {
+        DateTime today = DateTime.Today;
+
+        long tick_differ = today.Ticks - term_start_date.Ticks;
+        TimeSpan differ = new TimeSpan(tick_differ);
+
+        return differ.Days;
+    }
+
+    void Reset()
+    {
+        for (int i = 0; i < activity_done.Length; i++)
+            activity_done[i] = false;
+    }
+}
+
+
 public class Filtering_Data
 {
     public string big_cat = "";
@@ -67,3 +149,4 @@ public class Filtering_Data
         activity_index = _activity_index;
     }
 }
+
