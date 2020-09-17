@@ -75,7 +75,7 @@ public class Todo_List : MonoBehaviour
         }
     }
 
-    string Get_Term_Text(Todo _todo)
+    public static string Get_Term_Text(Todo _todo)
     {
         var sb = new System.Text.StringBuilder();
 

@@ -240,15 +240,16 @@ public class DataController : MonoBehaviour
         }
     }
 
+    public UnityAction<Activity> action_todo_done;
     public void Add_Record(Record _input)
     {
+        action_todo_done?.Invoke(_input.activity);
         records[DateTime.Today].Add(_input);
         Save(records, RECORD);
     }
 
     public void Remove_Record(int _index)
     {
-
         try
         {
             records[DateTime.Today].RemoveAt(_index);
@@ -279,9 +280,10 @@ public class DataController : MonoBehaviour
         }
     }
 
-    public void Add_Todo(Todo _input)
+    public void Add_Todo(Todo _input = null)
     {
-        todo_lists.Add(_input);
+        if(_input != null)
+            todo_lists.Add(_input);
         Save(todo_lists, TODO);
         Update_TodoList();
     }
@@ -315,10 +317,13 @@ public class DataController : MonoBehaviour
     }
 
     public UnityAction action_update_todolist;
+    public UnityAction action_update_main_todolist;
     void Update_TodoList(bool _update_list = true)
     {
         if(_update_list)
             action_update_todolist?.Invoke();
+
+        action_update_main_todolist?.Invoke();
 
         // 메인화면 업데이트 추가;
     }

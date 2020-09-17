@@ -66,9 +66,9 @@ public class Todo_List_Write : MonoBehaviour
     public void Btn_Reset()
     {
         for (int i = 0; i < toggle_term_weekday.Length; i++)
-            toggle_term_weekday[i].isOn = true;
-        input_term_day.text = DateTime.Today.ToString(f_date);
-        input_term_start.text = string.Empty;
+            toggle_term_weekday[i].isOn = false;
+        input_term_start.text = DateTime.Today.ToString(f_date);
+        input_term_day.text = string.Empty;
         tmp_activities = new List<Activity>();
 
         if (update_index != -1)
@@ -128,6 +128,7 @@ public class Todo_List_Write : MonoBehaviour
                 Update_Activity_Container();
             });
 
+            child.transform.localScale = Vector2.one;
             child.SetActive(true);
         }
     }
