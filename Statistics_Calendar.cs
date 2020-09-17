@@ -189,6 +189,7 @@ public class Statistics_Calendar : MonoBehaviour
     {
         _child.name = EMPTY;
         _child.GetComponent<Toggle>().enabled = false;
+        _child.GetChild(0).gameObject.SetActive(false);
         _child.GetComponent<Image>().enabled = false;
     }
 
@@ -196,6 +197,7 @@ public class Statistics_Calendar : MonoBehaviour
     {
         _child.name = EMPTY;
         _child.GetComponent<Toggle>().enabled = false;
+        _child.GetChild(0).gameObject.SetActive(false);
         _child.GetComponent<Image>().color = color_disabled;
     }
 
@@ -214,6 +216,7 @@ public class Statistics_Calendar : MonoBehaviour
             if(record.Length > 0)
             {
                 btn.enabled = true;
+                _child.GetChild(0).gameObject.SetActive(true);
                 Color[] color_palette;
                 if (data.category != string.Empty)
                     color_palette = color_filled_category[data.category];
@@ -244,6 +247,7 @@ public class Statistics_Calendar : MonoBehaviour
         }
         img.color = color_none;
         btn.enabled = false;
+        _child.GetChild(0).gameObject.SetActive(false);
     }
 
 

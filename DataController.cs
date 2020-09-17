@@ -23,6 +23,7 @@ public class DataController : MonoBehaviour
 
     private void Awake()
     {
+        Screen.SetResolution(720, 1280, true);
         Singleton();
         Load_Data();
         Colored_Object_Caching();
