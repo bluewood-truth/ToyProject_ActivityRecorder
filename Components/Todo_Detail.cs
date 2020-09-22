@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Todo_Detail : MonoBehaviour
 {
     [SerializeField] Text text_todo_detail;
-    const string f_todo_detail = "{0} ({1}/{2})\n<size=40>{3}\n\n{4}</size>";
+    const string f_todo_detail = "{0} ({1}/{2})\n<size=36>{3}\n\n{4}</size>";
     const string f_item = " - {0}";
     const string f_gray = "<color=#fff9>{0}</color>";
     const string f_done = "{0} ✓";

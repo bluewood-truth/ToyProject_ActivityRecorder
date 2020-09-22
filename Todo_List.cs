@@ -13,7 +13,7 @@ public class Todo_List : MonoBehaviour
     
     [SerializeField] GameObject[] colored_objects;
 
-    const string f_todo = "{0} ({1}/{2})\n<size=40>{3}</size>";
+    const string f_todo = "{0} ({1}/{2})\n<size=32>{3}</size>";
     const string f_term = "{0}일에 한 번 (다음 기한: {1})";
     const string f_d_day = "{0}일 뒤";
     const string TODAY = "오늘";

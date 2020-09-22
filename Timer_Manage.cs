@@ -29,7 +29,7 @@ public class Timer_Manage : MonoBehaviour
     const string f_value = "{0:00}";
     const string f_timeset = "{0}m{1:00}s";
     const string f_timeset_sec_only = "{0}s";
-    const string f_timer_name = "<size=45>{0}</size>\n  ";
+    const string f_timer_name = "<size=36>{0}</size>\n  ";
     const string f_repeat = "\n  x {0}회 반복";
     const string REPEAT_PERMANENTLY = "\n  x 계속 반복";
     const string ONE = "1";

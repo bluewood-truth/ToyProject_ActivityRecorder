@@ -30,7 +30,7 @@ public class Todo_List_Write : MonoBehaviour
 
     List<Activity> tmp_activities = new List<Activity>();
 
-    const string f_activity = "<i><size=32><color=#{2}>[{0}]</color></size>\n{1}</i>";
+    const string f_activity = "<i><size=30><color=#{2}>[{0}]</color></size>\n{1}</i>";
     const string f_date = "yyyy.MM.dd";
 
     void Init()

@@ -21,7 +21,7 @@ public class Record_Activity : MonoBehaviour
 
 
     const string f_time = "HH:mm";
-    const string f_record = "<i><size=36><color=#{4}>  [{0}]</color></size>\n{1}</i> {2}{3}";
+    const string f_record = "<i><size=30><color=#{4}>  [{0}]</color></size>\n{1}</i> {2}{3}";
 
 
     private void Start()

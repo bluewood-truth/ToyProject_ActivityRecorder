@@ -12,7 +12,7 @@ public class Statistics_Daily_Record : MonoBehaviour
 
     const string f_date = "MM.dd.({0})";
     const string f_italic = "<i>{0}</i>\n";
-    const string f_count = "    <size=36>- {0}{1}</size>\n";
+    const string f_count = "    <size=30>- {0}{1}</size>\n";
 
     public void Show_Daily_Record(DateTime _date, Filtering_Data _data)
     {
