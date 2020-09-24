@@ -95,6 +95,24 @@ public class DataController : MonoBehaviour
         return records[today];
     }
 
+    public Activity[] Get_Activities_by_Category()
+    {
+        List<Activity> result = new List<Activity>();
+        for(int i = 0; i < categories.Count; i++)
+        {
+            for(int j = 0; j < activities.Count; j++)
+            {
+                var activity = activities[j];
+                if (activity.category == categories[i])
+                {
+                    result.Add(activity);
+                }
+            }
+        }
+
+        return result.ToArray();
+    }
+
     public string[] Get_Big_Categories()
     {
         List<string> big_categories = new List<string>();
@@ -181,10 +199,13 @@ public class DataController : MonoBehaviour
     public Color color;
     public Color[] color_palette;
     public Color color_white;
+    public Color color_whitesmoke;
     [SerializeField] Color[] category_colors;
     public Color Get_Category_Color(string _category)
     {
         int cat_index = categories.IndexOf(_category) % category_colors.Length;
+        if (cat_index == -1)
+            return color_whitesmoke;
         return category_colors[cat_index];
     }
 

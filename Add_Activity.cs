@@ -162,8 +162,8 @@ public class Add_Activity : MonoBehaviour
     {
         activity_container.Clear();
 
-        var activities = DataController.instance.activities;
-        for (int i = 0; i < activities.Count; i++)
+        var activities = DataController.instance.Get_Activities_by_Category();
+        for (int i = 0; i < activities.Length; i++)
         {
             var child = activity_container.Get_Child_From_Pool(prefab_activity_child);
             var activity = activities[i];

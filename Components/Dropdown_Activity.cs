@@ -51,9 +51,10 @@ public class Dropdown_Activity : MonoBehaviour
         activity_index = new List<int>();
         options.Add(NONE);
         activity_index.Add(-1);
-        for(int i = 0; i < DataController.instance.activities.Count; i++)
+        var activities = DataController.instance.Get_Activities_by_Category();
+        for(int i = 0; i < activities.Length; i++)
         {
-            var activity = DataController.instance.activities[i];
+            var activity = activities[i];
             if (activity.category == _category)
             {
                 options.Add(activity.name);
