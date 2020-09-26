@@ -8,7 +8,26 @@ public class Dropdown_Big_Cat : MonoBehaviour
     const string NONE = "<color=#939393><i>대분류 선택</i></color>";
     [HideInInspector] public Dropdown dropdown;
 
-    public void Update_Options()
+    static List<Dropdown_Big_Cat> static_dropdown_big_cat_list;
+
+    public static void Update_All()
+    {
+        for (int i = 0; i < static_dropdown_big_cat_list.Count; i++)
+        {
+            static_dropdown_big_cat_list[i].Update_Options();
+        }
+    }
+
+    private void Awake()
+    {
+        Update_Options();
+
+        if (static_dropdown_big_cat_list == null)
+            static_dropdown_big_cat_list = new List<Dropdown_Big_Cat>();
+        static_dropdown_big_cat_list.Add(this);
+    }
+
+    void Update_Options()
     {
         if (dropdown == null)
             dropdown = GetComponent<Dropdown>();
@@ -19,6 +38,8 @@ public class Dropdown_Big_Cat : MonoBehaviour
 
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
+
+        dropdown.value = 0;
     }
 
     public string Get_Value()

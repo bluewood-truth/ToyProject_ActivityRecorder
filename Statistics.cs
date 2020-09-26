@@ -34,10 +34,6 @@ public class Statistics : MonoBehaviour
 
     void Init()
     {
-        select_big_cat.Update_Options();
-        select_category.Update_Options();
-        select_activity.Update_Options();
-
         _Functions.Colored_Object_Caching(colored_objects);
     }
 

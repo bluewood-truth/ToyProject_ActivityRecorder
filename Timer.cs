@@ -20,7 +20,7 @@ public class Timer : MonoBehaviour
 
     [SerializeField] Timer_Manage timer_manage;
 
-    const string f_time = "{0:00}:{1:00}<size=128>:{2:00}</size>";
+    const string f_time = "{0:00}:{1:00}<size=80>:{2:00}</size>";
     const string STOPWATCH = "<i>스톱워치</i>";
 
     int[] time_sets; // 연속적으로 실행될 타이머들의 배열

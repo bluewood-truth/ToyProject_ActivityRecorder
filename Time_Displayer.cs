@@ -13,7 +13,7 @@ public class Time_Displayer : MonoBehaviour
     // 상수
     const string f_date = "MM월 dd일 ddd요일";
     const string f_time = "HH:mm";
-    const string f_time_sec_added = "{0}<size=128>:{1:00}</size>";
+    const string f_time_sec_added = "{0}<size=70>:{1:00}</size>";
 
     WaitForSeconds wait_one_second = new WaitForSeconds(1);
     Coroutine cor_time_display;

@@ -9,6 +9,21 @@ public class Dropdown_Category : MonoBehaviour
     [HideInInspector] public Dropdown dropdown;
     [SerializeField] Dropdown_Big_Cat dropdown_big_cat;
 
+    static List<Dropdown_Category> static_dropdown_category_list;
+
+    public static void Update_All()
+    {
+        for(int i = 0; i < static_dropdown_category_list.Count; i++)
+        {
+            static_dropdown_category_list[i].Update_Options();
+        }
+    }
+
+    private void Awake()
+    {
+        Update_Options();
+    }
+
     void Init()
     {
         dropdown = GetComponent<Dropdown>();
@@ -28,9 +43,13 @@ public class Dropdown_Category : MonoBehaviour
                 }
             });
         }
+
+        if (static_dropdown_category_list == null)
+            static_dropdown_category_list = new List<Dropdown_Category>();
+        static_dropdown_category_list.Add(this);
     }
 
-    public void Update_Options()
+    void Update_Options()
     {
         if (dropdown == null)
             Init();
@@ -41,6 +60,8 @@ public class Dropdown_Category : MonoBehaviour
 
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
+
+        dropdown.value = 0;
     }
 
     public void Update_Options(string _big_cat)

@@ -120,8 +120,6 @@ public class Add_Activity : MonoBehaviour
 
             child.SetActive(true);
         }
-
-        select_category.Update_Options();
     }
 
 
@@ -163,6 +161,7 @@ public class Add_Activity : MonoBehaviour
         activity_container.Clear();
 
         var activities = DataController.instance.Get_Activities_by_Category();
+
         for (int i = 0; i < activities.Length; i++)
         {
             var child = activity_container.Get_Child_From_Pool(prefab_activity_child);
@@ -173,10 +172,9 @@ public class Add_Activity : MonoBehaviour
             var child_remove_btn = child.GetComponentInChildren<Button>();
             child_remove_btn.onClick.RemoveAllListeners();
 
-            int index = i;
             child_remove_btn.onClick.AddListener(() =>
             {
-                DataController.instance.Remove_Activity(index);
+                DataController.instance.Remove_Activity(activity);
                 Update_Activity_Container();
             });
 

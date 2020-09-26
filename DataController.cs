@@ -234,6 +234,9 @@ public class DataController : MonoBehaviour
         {
             categories.Add(_input);
             Save(categories, CATEGORY);
+
+            Dropdown_Category.Update_All();
+            Dropdown_Big_Cat.Update_All();
         }
     }
 
@@ -243,6 +246,9 @@ public class DataController : MonoBehaviour
         {
             categories.RemoveAt(_index);
             Save(categories, CATEGORY);
+
+            Dropdown_Category.Update_All();
+            Dropdown_Big_Cat.Update_All();
         }
         catch
         {
@@ -256,6 +262,8 @@ public class DataController : MonoBehaviour
         {
             activities.Add(_input);
             Save(activities, ACTIVITY);
+
+            Dropdown_Activity.Update_All();
         }
     }
 
@@ -265,10 +273,27 @@ public class DataController : MonoBehaviour
         {
             activities.RemoveAt(_index);
             Save(activities, ACTIVITY);
+
+            Dropdown_Activity.Update_All();
         }
         catch
         {
             Debug.Log("Remove_Activity: 존재하지 않는 인덱스 " + _index);
+        }
+    }
+
+    public void Remove_Activity(Activity _input)
+    {
+        try
+        {
+            activities.Remove(_input);
+            Save(activities, ACTIVITY);
+
+            Dropdown_Activity.Update_All();
+        }
+        catch
+        {
+            Debug.Log("Remove_Activity: 존재하지 않는 액티비티 " + _input.name);
         }
     }
 

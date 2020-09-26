@@ -10,6 +10,21 @@ public class Dropdown_Activity : MonoBehaviour
     List<int> activity_index;
     [SerializeField] Dropdown_Category dropdown_category;
 
+    static List<Dropdown_Activity> static_dropdown_activity_list;
+
+    public static void Update_All()
+    {
+        for (int i = 0; i < static_dropdown_activity_list.Count; i++)
+        {
+            static_dropdown_activity_list[i].Update_Options();
+        }
+    }
+
+    private void Awake()
+    {
+        Update_Options();
+    }
+
     void Init()
     {
         dropdown = GetComponent<Dropdown>();
@@ -20,9 +35,13 @@ public class Dropdown_Activity : MonoBehaviour
                 Update_Options(dropdown_category.Get_Value());
             });
         }
+
+        if (static_dropdown_activity_list == null)
+            static_dropdown_activity_list = new List<Dropdown_Activity>();
+        static_dropdown_activity_list.Add(this);
     }
 
-    public void Update_Options()
+    void Update_Options()
     {
         if (dropdown == null)
             Init();
@@ -33,6 +52,8 @@ public class Dropdown_Activity : MonoBehaviour
         dropdown.AddOptions(options);
 
         dropdown.interactable = false;
+
+        dropdown.value = 0;
     }
 
     public void Update_Options(string _category)

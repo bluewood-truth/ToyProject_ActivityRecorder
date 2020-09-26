@@ -38,12 +38,6 @@ public class Record_Activity : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        select_category.Update_Options();
-        select_activity.Update_Options();
-    }
-
     void Init()
     {
         prefab_record = container_record.GetChild(0).gameObject;

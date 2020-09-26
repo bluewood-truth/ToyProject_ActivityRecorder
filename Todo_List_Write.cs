@@ -40,8 +40,6 @@ public class Todo_List_Write : MonoBehaviour
         prefab_activity = container_activity.GetChild(0).gameObject;
         toggle_term_weekday = container_term[(int)Todo.Term.특정요일].GetComponentsInChildren<Toggle>();
         
-        select_category.Update_Options();
-        select_activity.Update_Options();
         Update_Activity_Container();
 
         _Functions.Colored_Object_Caching(colored_objects);
@@ -60,8 +58,8 @@ public class Todo_List_Write : MonoBehaviour
             Init();
 
         update_index = _update_index;
-        Btn_Reset();
         gameObject.SetActive(true);
+        Btn_Reset();
     }
 
     public void Btn_Reset()

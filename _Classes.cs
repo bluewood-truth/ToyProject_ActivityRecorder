@@ -167,8 +167,8 @@ public class Todo
         if (term == Term.일일)
             d_day += 1;
         
-        if (d_day == term_day)
-            d_day = 0;
+        if (d_day >= term_day)
+            d_day = d_day % term_day;
         return d_day;
     }
 
