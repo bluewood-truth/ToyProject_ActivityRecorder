@@ -14,7 +14,8 @@ public class Todo_List : MonoBehaviour
     [SerializeField] GameObject[] colored_objects;
 
     const string f_todo = "{0} ({1}/{2})\n<size=32>{3}</size>";
-    const string f_term = "{0}일에 한 번 (다음 기한: {1})";
+    const string f_term = "{0}일에 한 번 (다음 해당일: {1})";
+    const string f_period = "{0}일마다 (다음 기한: {1})";
     const string f_d_day = "{0}일 뒤";
     const string TODAY = "오늘";
     const string TOMORROW = "내일";
@@ -81,7 +82,7 @@ public class Todo_List : MonoBehaviour
 
         if(_todo.term == Todo.Term.특정요일)
         {
-            for(int i = 0; i < _todo.term_weekday.Length; i++)
+            for (int i = 0; i < _todo.term_weekday.Length; i++)
             {
                 if (i != 0)
                     sb.Append(' ');
@@ -96,10 +97,11 @@ public class Todo_List : MonoBehaviour
                 }
             }
         }
-        else if (_todo.term == Todo.Term.n일당1회)
+        else
         {
             string deadline;
             int d_day = _todo.Get_Deadline_Day();
+
             switch (d_day)
             {
                 case 0:
@@ -113,7 +115,7 @@ public class Todo_List : MonoBehaviour
                     break;
             }
 
-            sb.Append(string.Format(f_term, _todo.term_day, deadline));
+            sb.Append(string.Format(_todo.term == Todo.Term.기간 ? f_period : f_term, _todo.term_day, deadline));
         }
 
         return sb.ToString();

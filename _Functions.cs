@@ -108,8 +108,13 @@ public static class _Functions
     }
 
     static string[] day_of_week = new string[7] { "일", "월", "화", "수", "목", "금", "토" };
-    public static string Get_Day_of_Week_Kor(int _day_of_week)
+    const string f_day_of_week = "{0}요일";
+    public static string Get_Day_of_Week_Kor(int _day_of_week = -1, bool _full = false)
     {
+        if (_day_of_week == -1)
+            _day_of_week = (int)DateTime.Today.DayOfWeek;
+        if (_full)
+            return string.Format(f_day_of_week, day_of_week[_day_of_week]);
         return day_of_week[_day_of_week];
     }
 }

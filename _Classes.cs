@@ -48,6 +48,13 @@ public class Timer_Setting
             result.AddRange(timesets);
             n += 1;
         }
+        if(repeat == 0)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                result.AddRange(timesets);
+            }
+        }
 
         return result.ToArray();
     }
@@ -82,7 +89,7 @@ public class Todo
 
     public enum Term
     {
-        특정요일, n일당1회
+        특정요일=0, 일일=1, 기간=2
     }
 
     // 리셋 체크용 변수
@@ -97,13 +104,19 @@ public class Todo
         Next_Term_Check();
         DateTime today = DateTime.Today;
 
-        // n일에 한 번
-        if (term == Term.n일당1회)
-            return true;
-        // 특정 요일
-        else
+
+        switch (term)
         {
-            if (term_weekday[(int)today.DayOfWeek])
+            case Term.특정요일:
+                if (term_weekday[(int)today.DayOfWeek])
+                    return true;
+                break;
+            case Term.일일:
+                int differ = Get_Day_Differ();
+                if (differ % term_day == 0)
+                    return true;
+                break;
+            case Term.기간:
                 return true;
         }
 
@@ -117,15 +130,19 @@ public class Todo
         
         if(today != prev_day)
         {
-            // 특정 요일
-            if (term == Term.특정요일)
-                Reset();
-            // n일에 한 번
-            else
+            switch (term)
             {
-                int differ = Get_Day_Differ();
-                if (differ % term_day == 0)
+                case Term.특정요일:
                     Reset();
+                    break;
+                case Term.일일:
+                    Reset();
+                    break;
+                case Term.기간:
+                    int differ = Get_Day_Differ();
+                    if (differ % term_day == 0)
+                        Reset();
+                    break;
             }
         }
         prev_day = today;
@@ -144,7 +161,14 @@ public class Todo
     public int Get_Deadline_Day()
     {
         Next_Term_Check();
-        int d_day = term_day - (Get_Day_Differ() % term_day) - 1;
+        int differ = Get_Day_Differ();
+        int d_day = term_day - (differ % term_day) - 1;
+
+        if (term == Term.일일)
+            d_day += 1;
+        
+        if (d_day == term_day)
+            d_day = 0;
         return d_day;
     }
 
@@ -158,9 +182,9 @@ public class Todo
 
 public class Filtering_Data
 {
-    public string big_cat = "";
-    public string category = "";
-    public int activity_index = -1;
+    public string big_cat;
+    public string category;
+    public int activity_index;
 
     public Filtering_Data(string _big_cat = "", string _category = "", int _activity_index = -1)
     {

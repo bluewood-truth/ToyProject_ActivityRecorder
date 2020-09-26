@@ -14,13 +14,15 @@ public class Todo_List_Write : MonoBehaviour
 
     [Space(10)]
     [SerializeField] Dropdown select_term;
-    [SerializeField] Transform container_weekday;
+    [SerializeField] Transform[] container_term;
+    [Space(5)]
     Toggle[] toggle_term_weekday;
-
-    Transform container_someday;
+    [Space(5)]
     [SerializeField] InputField input_term_start;
     [SerializeField] InputField input_term_day;
-
+    [Space(5)]
+    [SerializeField] InputField input_period_start;
+    [SerializeField] InputField input_period;
     [Space(10)]
 
     [SerializeField] GameObject[] colored_objects;
@@ -36,9 +38,8 @@ public class Todo_List_Write : MonoBehaviour
     void Init()
     {
         prefab_activity = container_activity.GetChild(0).gameObject;
-        toggle_term_weekday = container_weekday.GetComponentsInChildren<Toggle>();
-        container_someday = input_term_start.transform.parent;
-
+        toggle_term_weekday = container_term[(int)Todo.Term.특정요일].GetComponentsInChildren<Toggle>();
+        
         select_category.Update_Options();
         select_activity.Update_Options();
         Update_Activity_Container();
@@ -69,6 +70,14 @@ public class Todo_List_Write : MonoBehaviour
             toggle_term_weekday[i].isOn = false;
         input_term_start.text = DateTime.Today.ToString(f_date);
         input_term_day.text = string.Empty;
+        input_period_start.text = DateTime.Today.ToString(f_date);
+        input_period.text = string.Empty;
+
+        input_todo_name.text = string.Empty;
+
+        select_category.dropdown.value = 0;
+        select_activity.dropdown.value = 0;
+        select_term.value = 0;
         tmp_activities = new List<Activity>();
 
         if (update_index != -1)
@@ -77,19 +86,24 @@ public class Todo_List_Write : MonoBehaviour
             input_todo_name.text = todo.name;
             tmp_activities = new List<Activity>(todo.activities);
 
-            if(todo.term == Todo.Term.특정요일)
+            select_term.value = (int)todo.term + 1;
+
+            switch (todo.term)
             {
-                select_term.value = 1;
-                for(int i = 0; i < todo.term_weekday.Length; i++)
-                {
-                    toggle_term_weekday[i].isOn = todo.term_weekday[i];
-                }
-            }
-            else if (todo.term == Todo.Term.n일당1회)
-            {
-                select_term.value = 2;
-                input_term_start.text = todo.term_start_date.ToString(f_date);
-                input_term_day.text = todo.term_day.ToString();
+                case Todo.Term.특정요일:
+                    for (int i = 0; i < todo.term_weekday.Length; i++)
+                    {
+                        toggle_term_weekday[i].isOn = todo.term_weekday[i];
+                    }
+                    break;
+                case Todo.Term.일일:
+                    input_term_start.text = todo.term_start_date.ToString(f_date);
+                    input_term_day.text = todo.term_day.ToString();
+                    break;
+                case Todo.Term.기간:
+                    input_period_start.text = todo.term_start_date.ToString(f_date);
+                    input_period.text = todo.term_day.ToString();
+                    break;
             }
         }
 
@@ -135,30 +149,13 @@ public class Todo_List_Write : MonoBehaviour
 
     public void Select_Term(int _value)
     {
-        switch (_value)
+        for(int i = 0; i < container_term.Length; i++)
         {
-            case 0:
-                {
-                    container_someday.gameObject.SetActive(false);
-                    container_weekday.gameObject.SetActive(false);
-                    break;
-                }
-            case 1:
-                {
-                    container_someday.gameObject.SetActive(false);
-                    container_weekday.gameObject.SetActive(true);
-                    break;
-                }
-            case 2:
-                {
-                    container_someday.gameObject.SetActive(true);
-                    container_weekday.gameObject.SetActive(false);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
+            container_term[i].gameObject.SetActive(false);
+        }
+        if(_value != 0)
+        {
+            container_term[_value - 1].gameObject.SetActive(true);
         }
     }
 
@@ -171,18 +168,24 @@ public class Todo_List_Write : MonoBehaviour
         new_todo.name = input_todo_name.text;
         new_todo.activities = tmp_activities.ToArray();
         new_todo.activity_done = new bool[new_todo.activities.Length];
-        new_todo.term = select_term.value == 1 ? Todo.Term.특정요일 : Todo.Term.n일당1회;
-        if(new_todo.term == Todo.Term.특정요일)
+        new_todo.term = (Todo.Term)select_term.value - 1;
+
+        switch (new_todo.term)
         {
-            for(int i = 0; i < toggle_term_weekday.Length; i++)
-            {
-                new_todo.term_weekday[i] = toggle_term_weekday[i].isOn;
-            }
-        }
-        else if(new_todo.term == Todo.Term.n일당1회)
-        {
-            new_todo.term_start_date = DateTime.ParseExact(input_term_start.text, f_date, null);
-            new_todo.term_day = int.Parse(input_term_day.text);
+            case Todo.Term.특정요일:
+                for (int i = 0; i < toggle_term_weekday.Length; i++)
+                {
+                    new_todo.term_weekday[i] = toggle_term_weekday[i].isOn;
+                }
+                break;
+            case Todo.Term.일일:
+                new_todo.term_start_date = DateTime.ParseExact(input_term_start.text, f_date, null);
+                new_todo.term_day = int.Parse(input_term_day.text);
+                break;
+            case Todo.Term.기간:
+                new_todo.term_start_date = DateTime.ParseExact(input_period_start.text, f_date, null);
+                new_todo.term_day = int.Parse(input_period.text);
+                break;
         }
 
         if(update_index == -1)
